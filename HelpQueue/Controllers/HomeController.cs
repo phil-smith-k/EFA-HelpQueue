@@ -11,7 +11,7 @@ namespace HelpQueue.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Queue", "HelpQueue");
         }
 
         public ActionResult About()

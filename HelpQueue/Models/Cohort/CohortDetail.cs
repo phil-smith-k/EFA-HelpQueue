@@ -12,6 +12,6 @@ namespace HelpQueue.Models.Cohort
         public int CohortId { get; set; }
         public string CohortName { get; set; }
         public List<EnrollmentListItem> Students { get; set; }
-        public List<QuestionDetail> Questions { get; internal set; }
+        public List<QuestionDetail> Questions { get; set; }
     }
 }

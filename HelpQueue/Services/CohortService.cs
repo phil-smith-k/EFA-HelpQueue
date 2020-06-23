@@ -18,6 +18,14 @@ namespace HelpQueue.Services
             _context = new ApplicationDbContext();
         }
 
+        // Get Cohort By User ID
+        public async Task<CohortDetail> GetUserCohortDetailAsync(string userId)
+        {
+            var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var enrollment = userEntity.Enrollments.FirstOrDefault();
+            return await GetCohortById(enrollment.CohortId);
+        }
+
         // Create Class
         public async Task<bool> CreateCohortAsync(CohortCreate model)
         {

@@ -1,4 +1,5 @@
 ﻿using HelpQueue.Models;
+using HelpQueue.Models.Entities;
 using HelpQueue.Models.Questions;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,23 @@ namespace HelpQueue.Services
                 CreationTime = q.CreationTime,
                 StudentName = q.Student.FullName
             }).ToList();
+        }
+
+        // Create Question
+        public async Task<bool> CreateQuestionAsync(QuestionCreate model)
+        {
+            var entity = new QuestionEntity
+            {
+                CohortId = model.CohortId,
+                CreationTime = DateTimeOffset.Now,
+                Description = model.Description,
+                Title = model.Title,
+                StudentId = model.StudentId
+            };
+
+            _context.Questions.Add(entity);
+            
+            return await _context.SaveChangesAsync() == 1;
         }
     }
 }

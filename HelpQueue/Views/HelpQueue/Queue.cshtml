@@ -1,0 +1,68 @@
+﻿@model HelpQueue.Models.Cohort.CohortDetail
+@using HelpQueue.Models.Questions
+
+@{
+    ViewBag.Title = Model.CohortName;
+}
+
+<h2>@Model.CohortName</h2>
+
+<div>
+    <div class="row">
+        <h4 class="col-md-8">Help Queue</h4>
+        @Html.Partial("_HelpRequest", new QuestionCreate { CohortId = Model.CohortId })
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Questions.FirstOrDefault().Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Questions.FirstOrDefault().Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Questions.FirstOrDefault().StudentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Questions.FirstOrDefault().CreationTime)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Questions)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationTime)
+                </td>
+                <td>
+                    @Html.ActionLink("Queue", "Queue", new { id = item.Id }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<p>
+    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+    {
+        @Html.ActionLink("Manage Students", "Edit", new { id = Model.CohortId }) <span>|</span>
+        @Html.ActionLink("Back to List", "Index")
+    }
+</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
