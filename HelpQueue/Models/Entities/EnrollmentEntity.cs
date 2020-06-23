@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -18,5 +19,9 @@ namespace HelpQueue.Models.Entities
         [ForeignKey(nameof(Student))]
         public string StudentId { get; set; }
         public virtual ApplicationUser Student { get; set; }
+
+        [Required]
+        [DefaultValue(false)]
+        public bool Enabled { get; set; }
     }
 }

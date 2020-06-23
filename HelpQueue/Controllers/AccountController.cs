@@ -155,7 +155,13 @@ namespace HelpQueue.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -163,7 +169,12 @@ namespace HelpQueue.Controllers
 
                     using (var ctx = new ApplicationDbContext())
                     {
-                        ctx.Enrollments.Add(new EnrollmentEntity { StudentId = user.Id, CohortId = model.CohortId });
+                        ctx.Enrollments.Add(new EnrollmentEntity
+                        {
+                            StudentId = user.Id,
+                            CohortId = model.CohortId,
+                            Enabled = false
+                        });
                         ctx.SaveChanges();
                     }
 

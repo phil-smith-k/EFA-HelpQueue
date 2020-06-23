@@ -1,6 +1,6 @@
 ﻿using HelpQueue.Models;
 using HelpQueue.Models.Cohort;
-using HelpQueue.Models.Responses;
+using HelpQueue.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,24 +19,47 @@ namespace HelpQueue.Services
         }
 
         // Create Class
-        public async Task<Response> CreateCohortAsync(CohortCreate model)
+        public async Task<bool> CreateCohortAsync(CohortCreate model)
         {
-            throw new NotImplementedException();
+            var existingCohort = await _context.Cohorts.FirstOrDefaultAsync(c => c.Name == model.Name);
+            if (existingCohort != null)
+                return false;
+
+            var entity = new CohortEntity { Name = model.Name };
+            _context.Cohorts.Add(entity);
+            return await _context.SaveChangesAsync() == 1;
         }
 
         // Get List of Classes
-        public async Task<IEnumerable<CohortListItem>> GetCohortListAsync()
+        public async Task<List<CohortListItem>> GetCohortListAsync()
         {
             var cohorts = await _context.Cohorts.ToListAsync();
-            return cohorts.Select(c => new CohortListItem { Id = c.Id, Name = c.Name });
+            return cohorts.Select(c => new CohortListItem
+            {
+                Id = c.Id,
+                Name = c.Name,
+                StudentCount = c.Enrollments.Where(e => e.Enabled).Count(),
+                QuestionCount = c.Questions.Count
+            }).ToList();
         }
 
-        // Join Class
+        // Get Cohort
+        public async Task<CohortDetail> GetCohortById(int cohortId)
+        {
+            var cohortEntity = await _context.Cohorts.FindAsync(cohortId);
+            if (cohortEntity == null)
+                return null;
 
-        // Enroll in class
+            var cohortDetail = new CohortDetail
+            {
+                CohortId = cohortEntity.Id,
+                CohortName = cohortEntity.Name
+            };
 
-        // Leave Class
+            cohortDetail.Students = await new EnrollmentService().GetEnrollmentByCohortIdAsync(cohortId);
+            cohortDetail.Questions = await new QuestionService().GetQuestionsByCohortId(cohortId);
 
-        // Conclude Class
+            return cohortDetail;
+        }
     }
 }

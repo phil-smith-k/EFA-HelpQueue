@@ -17,7 +17,20 @@ namespace HelpQueue.Models
             // Add custom user claims here
             return userIdentity;
         }
-         
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FullName
+        {
+            get
+            {
+                var name = $"{FirstName}" +
+                    $"{(string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) ? "" : " ")}" +
+                    $"{LastName}";
+                return string.IsNullOrEmpty(name) ? UserName : name;
+            }
+        }
+
         public virtual List<EnrollmentEntity> Enrollments { get; set; }
     }
 }

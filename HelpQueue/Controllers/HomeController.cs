@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace HelpQueue.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -15,14 +16,14 @@ namespace HelpQueue.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "EFA Help Queue";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "EFA Contact";
 
             return View();
         }

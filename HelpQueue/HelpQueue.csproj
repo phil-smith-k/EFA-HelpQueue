@@ -176,15 +176,19 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Cohort\CohortCreate.cs" />
+    <Compile Include="Models\Cohort\CohortDetail.cs" />
     <Compile Include="Models\Cohort\CohortListItem.cs" />
+    <Compile Include="Models\Enrollment\EnrollmentListItem.cs" />
     <Compile Include="Models\Entities\CohortEntity.cs" />
     <Compile Include="Models\Entities\EnrollmentEntity.cs" />
     <Compile Include="Models\Entities\QuestionEntity.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Responses\Response.cs" />
+    <Compile Include="Models\Questions\QuestionDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CohortService.cs" />
+    <Compile Include="Services\EnrollmentService.cs" />
+    <Compile Include="Services\QuestionService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
