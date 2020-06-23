@@ -3,16 +3,17 @@ using HelpQueue.Models.Cohort;
 using HelpQueue.Models.Responses;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace HelpQueue.Services
 {
-    public class ClassService
+    public class CohortService
     {
         private readonly ApplicationDbContext _context;
-        public ClassService()   
+        public CohortService()
         {
             _context = new ApplicationDbContext();
         }
@@ -21,6 +22,13 @@ namespace HelpQueue.Services
         public async Task<Response> CreateCohortAsync(CohortCreate model)
         {
             throw new NotImplementedException();
+        }
+
+        // Get List of Classes
+        public async Task<IEnumerable<CohortListItem>> GetCohortListAsync()
+        {
+            var cohorts = await _context.Cohorts.ToListAsync();
+            return cohorts.Select(c => new CohortListItem { Id = c.Id, Name = c.Name });
         }
 
         // Join Class

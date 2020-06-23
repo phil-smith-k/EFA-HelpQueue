@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using HelpQueue.Models;
 using HelpQueue.Models.Entities;
+using HelpQueue.Services;
 
 namespace HelpQueue.Controllers
 {
@@ -138,8 +139,10 @@ namespace HelpQueue.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public async Task<ActionResult> Register()
         {
+            var service = new CohortService();
+            ViewBag.CohortId = new SelectList(await service.GetCohortListAsync(), "Id", "Name");
             return View();
         }
 
@@ -176,6 +179,9 @@ namespace HelpQueue.Controllers
                 }
                 AddErrors(result);
             }
+
+            var service = new CohortService();
+            ViewBag.CohortId = new SelectList(await service.GetCohortListAsync(), "Id", "Name");
 
             // If we got this far, something failed, redisplay form
             return View(model);

@@ -81,6 +81,7 @@ namespace HelpQueue.Models
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Range(1, 1150)]
         [Display(Name = "Cohort")]
         public int CohortId { get; set; }
     }
