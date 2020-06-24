@@ -1,0 +1,45 @@
+﻿@model HelpQueue.Models.Questions.QuestionDetail
+@using HelpQueue.Extensions
+
+@{
+    var request = $"request{Model.Id}";
+}
+
+<div style="width: 100%; border: 1px solid grey; margin-bottom: 1em;">
+    <div style="display: flex; background-color: #ddd; outline: 1px solid grey;">
+        <a data-toggle="collapse" href="#@request" role="button" aria-expanded="false" aria-controls="@request" class="request-title">
+            <div style="display: flex; padding: .5em;">
+                <div>
+                    @Model.Title
+                </div>
+                <div style="flex-grow: 1;"></div>
+                <div style="text-align: right;">
+                    <span title="@Model.CreationTime">
+                        @Model.StudentName
+                        <br />
+                        @Model.CreationTime.GetTimeSince()
+                    </span>
+                </div>
+            </div>
+        </a>
+        @if (Model.IsUserOwned || User.IsInRole("Admin") || User.IsInRole("Employee"))
+        {
+            <div>
+                <div class="btn-group dropright" style="height: 100%;">
+                    <button type="button" class="request-menu btn dropdown-toggle glyphicon glyphicon-ok" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu" style="text-align: center;">
+                        <div>
+                            <a href="/Question/Complete/@Model.Id"><span class="glyphicon glyphicon-ok"></span> Mark Complete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="collapse" id="@request">
+        <div class="card card-body">
+            @Model.Description
+        </div>
+    </div>
+</div>

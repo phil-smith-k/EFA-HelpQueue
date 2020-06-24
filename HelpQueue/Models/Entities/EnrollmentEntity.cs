@@ -22,6 +22,6 @@ namespace HelpQueue.Models.Entities
 
         [Required]
         [DefaultValue(false)]
-        public bool Enabled { get; set; }
+        public bool IsActive { get; set; }
     }
 }

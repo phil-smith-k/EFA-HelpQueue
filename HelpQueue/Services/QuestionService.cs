@@ -12,9 +12,14 @@ namespace HelpQueue.Services
     public class QuestionService
     {
         private readonly ApplicationDbContext _context;
+        private readonly string _userId;
         public QuestionService()
         {
             _context = new ApplicationDbContext();
+        }
+        public QuestionService(string userId) : this()
+        {
+            _userId = userId;
         }
 
         // Get Questions by Cohort Id
@@ -30,7 +35,8 @@ namespace HelpQueue.Services
                 Title = q.Title,
                 Description = q.Description,
                 CreationTime = q.CreationTime,
-                StudentName = q.Student.FullName
+                StudentName = q.Student.FullName,
+                IsUserOwned = q.StudentId == _userId
             }).ToList();
         }
 

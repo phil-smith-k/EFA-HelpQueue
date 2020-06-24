@@ -172,6 +172,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -251,7 +252,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\HelpQueue\Index.cshtml" />
     <Content Include="Views\HelpQueue\Queue.cshtml" />
-    <Content Include="Views\Shared\_HelpRequest.cshtml" />
+    <Content Include="Views\Shared\_HelpRequestButton.cshtml" />
+    <Content Include="Views\Shared\_Request.cshtml" />
+    <Content Include="Views\HelpQueue\InactiveAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

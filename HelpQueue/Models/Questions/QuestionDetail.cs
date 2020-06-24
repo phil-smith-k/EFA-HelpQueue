@@ -12,5 +12,6 @@ namespace HelpQueue.Models.Questions
         public string Description { get; set; }
         public string StudentName { get; set; }
         public DateTimeOffset CreationTime { get; set; }
+        public bool IsUserOwned { get; set; }
     }
 }

@@ -13,17 +13,22 @@ namespace HelpQueue.Services
     public class CohortService
     {
         private readonly ApplicationDbContext _context;
+        private readonly string _userId;
         public CohortService()
         {
             _context = new ApplicationDbContext();
+        }
+        public CohortService(string userId) : this()
+        {
+            _userId = userId;
         }
 
         // Get Cohort By User ID
         public async Task<CohortDetail> GetUserCohortDetailAsync(string userId)
         {
             var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            var enrollment = userEntity.Enrollments.FirstOrDefault();
-            return await GetCohortById(enrollment.CohortId);
+            var enrollment = userEntity.Enrollments.Where(e => e.IsActive).FirstOrDefault();
+            return enrollment != null ? await GetCohortById(enrollment.CohortId) : null;
         }
 
         // Create Class
@@ -46,7 +51,7 @@ namespace HelpQueue.Services
             {
                 Id = c.Id,
                 Name = c.Name,
-                StudentCount = c.Enrollments.Where(e => e.Enabled).Count(),
+                StudentCount = c.Enrollments.Where(e => e.IsActive).Count(),
                 QuestionCount = c.Questions.Count
             }).ToList();
         }
@@ -65,7 +70,7 @@ namespace HelpQueue.Services
             };
 
             cohortDetail.Students = await new EnrollmentService().GetEnrollmentByCohortIdAsync(cohortId);
-            cohortDetail.Questions = await new QuestionService().GetQuestionsByCohortId(cohortId);
+            cohortDetail.Questions = await new QuestionService(_userId).GetQuestionsByCohortId(cohortId);
 
             return cohortDetail;
         }

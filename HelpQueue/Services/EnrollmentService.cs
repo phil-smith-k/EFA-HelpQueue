@@ -26,7 +26,7 @@ namespace HelpQueue.Services
                 CohortName = e.Cohort.Name,
                 StudentId = e.StudentId,
                 StudentName = e.Student.FullName,
-                Enrolled = e.Enabled
+                Enrolled = e.IsActive
             }).ToList();
         }
     }

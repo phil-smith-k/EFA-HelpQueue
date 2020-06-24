@@ -19,7 +19,7 @@ namespace HelpQueue.Controllers
         public async Task<ActionResult> Index()
         {
             if (User.IsInRole("Student"))
-                return RedirectToAction(nameof(HelpQueue));
+                return RedirectToAction(nameof(Queue));
 
             var cohorts = await _cohortService.GetCohortListAsync();
 
@@ -29,16 +29,27 @@ namespace HelpQueue.Controllers
         // GET: HelpQueue/HelpQueue/{id?}
         public async Task<ActionResult> Queue(int? id)
         {
+            var service = new CohortService(User.Identity.GetUserId());
+
             CohortDetail model = null;
             if (User.IsInRole("Student"))
-                model = await _cohortService.GetUserCohortDetailAsync(User.Identity.GetUserId());
+            {
+                model = await service.GetUserCohortDetailAsync(User.Identity.GetUserId());
+                if (model is null)
+                    return RedirectToAction(nameof(InactiveAccount));
+            }
             else if (id.HasValue)
-                model = await _cohortService.GetCohortById(id.Value);
+                model = await service.GetCohortById(id.Value);
 
-            if(model is null)
+            if (model is null)
                 return RedirectToAction(nameof(Index));
 
             return View(model);
+        }
+
+        public ActionResult InactiveAccount()
+        {
+            return View();
         }
     }
 }

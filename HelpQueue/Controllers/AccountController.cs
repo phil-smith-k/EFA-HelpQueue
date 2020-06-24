@@ -173,7 +173,7 @@ namespace HelpQueue.Controllers
                         {
                             StudentId = user.Id,
                             CohortId = model.CohortId,
-                            Enabled = false
+                            IsActive = false
                         });
                         ctx.SaveChanges();
                     }
